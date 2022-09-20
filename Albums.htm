@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albums</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <div class="gallery-item" data-index="1"><img src="cake1.jpg" width="50px" height="50px" alt=""></div>
+        <div class="gallery-item" data-index="2"><img src="cake2.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="3"><img src="cake33.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="4"><img src="cake4.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="5"><img src="cake5.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="6"><img src="cake6.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="7"><img src="cake7.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="8"><img src="cake9.jpg" width="50px" height="50px"  alt=""></div>
+        <div class="gallery-item" data-index="9"><img src="cake9.jpg" width="50px" height="50px"  alt=""></div>
+    </div>
+
+    <!--Java Script-->
+    <script>
+        const galleryItem = document.getElementsByClassName("gallery-item");
+        // create element for lightbox
+        const lightBoxContainer = document.createElement("div");
+        //for basic area
+        const lightBoxContent = document.createElement("div");
+        //for images
+        const lightBoxImg = document.createElement("img");
+        //for prev button to change images
+        const lightBoxPrev = document.createElement("div");
+        //for next button
+        const lightBoxNext = document.createElement("div");
+
+
+
+        //create classlist
+
+        lightBoxContainer.classlist.add('lightbox');
+        lightBoxContent.classlist.add('lightbox-content');
+        lightBoxPrev.classlist.add("fa", "fa-angle-left","lightbox-prev");
+        lightBoxNext.classlist.add("fa","fa-angle-right","lightbox-next");
+
+        lightBoxContainer.appendChild(lightBoxContent);
+        lightBoxContent.appendChild(lightBoxImg);
+        lightBoxContent.appendChild(lightBoxPrev);
+        lightBoxContent.appendChild(lightBoxNext);
+        document.body.appendChild(lightBoxContainer);
+
+
+        let index = 1;
+
+        //create function
+        function showLightBox(n){
+            if (n > galleryItem.length) {
+                index = 1;
+            } else if (n < 1){
+                index = galleryItem.length;
+            }
+
+            let imageLocation = galleryItem[index-1].children[0].getAttribute("src");
+            lightBoxImg.setAttribute("src",imageLocation);
+        }
+
+        function currentImage(){
+            lightBoxContainer.style.display="block";
+
+            let imageIndex = parseInt(this.getAttribute("data-index"));
+            showLightBox(index = imageIndex);
+
+        }
+
+
+        for (let i = 0; i < galleryItem.length; i++){
+            galleryItem[i].addEventListener("Click",currentImage);
+        }
+
+        function sliderImage(n){
+            showLightBox(index += n);
+        }
+
+        function nextImage(){
+            sliderImage(1);
+        }
+
+        lightBoxPrev.addEventListener("Click", prevImage);
+        lightBoxNext.addEventListener("Click", nextImage);
+
+        //Close lightBox
+
+        function closeLightBox(){
+            if(this === event.target){
+                lightBoxContainer.style.display = "none";
+            }
+        }
+
+        lightBoxContainer.addEventListener("Click",closeLightBox)
+
+    </script>
+    
+</body>
+</html>
